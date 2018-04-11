@@ -4,6 +4,7 @@ BrickFTP
 |PyPI| |Python Versions| |Build Status|
 
 Python Client for BrickFTP API (https://developers.brickftp.com/).
+This client does not implement all the features of the API, pull requests are very welcome to expand functionality.
 
 Installation
 ------------
