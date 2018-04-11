@@ -86,9 +86,9 @@ Note: Running the tests against a BrickFTP user will wipe all data on their acco
     pip install -r requirements-test.txt
     pytest
 
-.. |PyPI| image:: https://img.shields.io/pypi/v/brickftp.svg
-   :target: https://pypi.python.org/pypi/brickftp
-.. |Python Versions| image:: https://img.shields.io/pypi/pyversions/brickftp.svg
-   :target: https://pypi.python.org/pypi/brickftp
+.. |PyPI| image:: https://img.shields.io/pypi/v/BrickFTP.svg
+   :target: https://pypi.python.org/pypi/BrickFTP
+.. |Python Versions| image:: https://img.shields.io/pypi/pyversions/BrickFTP.svg
+   :target: https://pypi.python.org/pypi/BrickFTP
 .. |Build Status| image:: https://travis-ci.org/Usio-Energy/BrickFTP.png?branch=master
    :target: https://travis-ci.org/Usio-Energy/BrickFTP
