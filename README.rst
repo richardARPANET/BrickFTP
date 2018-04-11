@@ -49,14 +49,14 @@ Upto 5MB supported by the client at this time.
 
 .. code:: python
 
-    client.upload(upload_path='/some/path.txt', local_path='path.txt)
+    client.upload(upload_path='/some/path.txt', local_path='path.txt')
 
 Download a file
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
-    client.download_file(remote_path='/some/path.txt', local_path='path.txt)
+    client.download_file(remote_path='/some/path.txt', local_path='path.txt')
 
 Delete a file or folder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
