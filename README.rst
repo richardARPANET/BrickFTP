@@ -80,7 +80,7 @@ Running the tests
 
 Set the environment variables: ``BRICK_FTP_USER``, ``BRICK_FTP_PASS``, ``BRICK_FTP_SUBDOMAIN``.
 
-Note: Running the tests against a BrickFTP user will wipe all data on their account.
+NOTE: Running the tests against a BrickFTP user will wipe all data on their account.
 
 .. code:: bash
 
