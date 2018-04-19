@@ -25,7 +25,6 @@ class BrickFTP:
         )
         self._session_id = start_session_resp['id']
         self._logged_in = True
-        self._get('/api/rest/v1/users.json')
 
     def dir(self, remote_path):
         if not self._logged_in:
@@ -50,7 +49,9 @@ class BrickFTP:
         with open(local_path) as input_file:
             resp = requests.put(upload_uri, data=input_file.read())
             if not resp.ok:
-                raise BrickFTPError('Failed to upload part. Resp: {resp.text}')
+                raise BrickFTPError(
+                    f'Failed to upload part. Resp: {resp.text}'
+                )
         # End upload
         self._post(upload_control_url, json={'action': 'end', 'ref': ref})
 
