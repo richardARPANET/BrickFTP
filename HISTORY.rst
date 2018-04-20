@@ -3,7 +3,7 @@
 Release History
 ---------------
 
-0.1.2 (unreleased)
+0.1.2 (2018-04-20)
 ++++++++++++++++++
 
 - Bugfix for issue where if the server responded with non-JSON ``JSONDecodeError`` would raise, now raises ``BrickFTPError``.
