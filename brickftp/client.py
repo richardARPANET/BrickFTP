@@ -1,5 +1,7 @@
 import logging
+from json.decoder import JSONDecodeError
 
+from requests.exceptions import RequestException
 import requests
 
 logger = logging.getLogger(__name__)
@@ -89,10 +91,16 @@ class BrickFTP:
         url = (
             f'https://{self._subdomain}.brickftp.com/{path.lstrip("/")}'
         )
-        resp = getattr(requests, method)(
-            url, **{**self._default_request_kwargs, **kwargs}
-        )
-        resp_json = resp.json()
+        try:
+            resp = getattr(requests, method)(
+                url, **{**self._default_request_kwargs, **kwargs}
+            )
+        except RequestException as exc:
+            raise BrickFTPError(exc) from exc
+        try:
+            resp_json = resp.json()
+        except JSONDecodeError:
+            raise BrickFTPError(f'Non-valid JSON response: {resp.text}')
         if not resp.ok:
             error = resp_json['error']
             raise BrickFTPError(error)
