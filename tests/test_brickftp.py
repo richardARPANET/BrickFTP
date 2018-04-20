@@ -1,6 +1,8 @@
 from pathlib import Path
 import os
+from json.decoder import JSONDecodeError
 
+from requests.exceptions import RequestException
 import pytest
 
 from brickftp import BrickFTP, BrickFTPError
@@ -18,19 +20,14 @@ def client():
         password=BRICK_FTP_PASS,
         subdomain=BRICK_FTP_SUBDOMAIN,
     )
-    yield client
     paths = (i['path'] for i in client.dir(BASE_DIR))
     for path in paths:
         client.delete(path)
+    yield client
 
 
 def test_login(client):
-    assert client._session_id is None
-
     client._login()
-
-    assert client._session_id is not None
-    assert client._logged_in is True
 
 
 def test_login_with_invalid_creds():
@@ -95,3 +92,25 @@ def test_delete(client):
     client.delete(upload_path)
 
     assert len(client.dir(BASE_DIR)) == 0
+
+
+def test_raises_brickftperror_when_response_is_not_valid_json(client, mocker):
+    mock_requests = mocker.patch('brickftp.client.requests')
+    mock_requests.get().json.side_effect = JSONDecodeError(
+        msg='', doc=mocker.MagicMock(), pos=1
+    )
+
+    with pytest.raises(BrickFTPError) as exc:
+        client.dir('/')
+
+    exc.match(r'Non-valid JSON response:.+')
+
+
+def test_raises_brickftperror_when_connectionerror(client, mocker):
+    mock_requests = mocker.patch('brickftp.client.requests')
+    mock_requests.get.side_effect = RequestException('msg')
+
+    with pytest.raises(BrickFTPError) as exc:
+        client.dir('/')
+
+    exc.match(r'msg')
