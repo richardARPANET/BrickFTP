@@ -24,7 +24,7 @@ with io.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name=NAME,
-    version='0.1.2',
+    version='0.1.3.dev0',
     description=DESCRIPTION,
     long_description=long_description,
     author=AUTHOR,
