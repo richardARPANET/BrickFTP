@@ -3,10 +3,10 @@
 Release History
 ---------------
 
-0.2.1 (unreleased)
+0.3.0 (unreleased)
 ++++++++++++++++++
 
-- Nothing changed yet.
+- Adds optional ``encoding`` param to ``upload`` method so that encoding may be provided for non utf-8 files to be uploaded, without this ``UnicodeDecodeError`` would raise.
 
 
 0.2.0 (2018-04-26)

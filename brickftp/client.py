@@ -1,5 +1,6 @@
 import logging
 from urllib.parse import urljoin
+from codecs import open
 from json.decoder import JSONDecodeError
 
 from requests.exceptions import RequestException
@@ -42,7 +43,7 @@ class BrickFTP:
             self._login()
         return self._post(f'/api/rest/v1/folders/{self._path(remote_path)}')
 
-    def upload(self, *, upload_path, local_path):
+    def upload(self, *, upload_path, local_path, encoding='utf-8'):
         # NOTE: can currently only upload upto 5MB size files
         # https://developers.brickftp.com/#requesting-additional-upload-urls
         if not self._logged_in:
@@ -56,7 +57,7 @@ class BrickFTP:
         # Upload parts
         ref = start_upload_resp_json['ref']
         upload_uri = start_upload_resp_json['upload_uri']
-        with open(local_path) as input_file:
+        with open(local_path, encoding=encoding) as input_file:
             resp = requests.put(upload_uri, data=input_file.read())
             if not resp.ok:
                 raise BrickFTPError(
