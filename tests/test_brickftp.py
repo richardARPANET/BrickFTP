@@ -87,9 +87,24 @@ def test_download(client):
         local_path=Path(Path(__file__).parent, 'data.txt'),
     )
 
-    client.download_file(remote_path=upload_path, local_path='/tmp/data2.txt'),
+    downloaded_path = client.download_file(
+        remote_path=upload_path, local_path='/tmp/data2.txt'
+    )
 
+    assert downloaded_path == '/tmp/data2.txt'
     assert os.path.isfile('/tmp/data2.txt')
+
+
+def test_download_without_local_path_generates_local_path(client):
+    upload_path = Path(BASE_DIR, 'data2.txt')
+    client.upload(
+        upload_path=upload_path,
+        local_path=Path(Path(__file__).parent, 'data.txt'),
+    )
+
+    downloaded_path = client.download_file(remote_path=upload_path)
+
+    assert os.path.isfile(downloaded_path)
 
 
 def test_delete(client):

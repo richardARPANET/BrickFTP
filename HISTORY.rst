@@ -3,10 +3,10 @@
 Release History
 ---------------
 
-0.3.1 (unreleased)
+0.4.0 (unreleased)
 ++++++++++++++++++
 
-- Nothing changed yet.
+- Make ``local_path`` parameter of ``download_file`` method optional, also make the method return the path of the downloded file.
 
 
 0.3.0 (2018-04-26)
