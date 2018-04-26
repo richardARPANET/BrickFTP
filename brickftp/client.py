@@ -1,4 +1,5 @@
 import logging
+from tempfile import NamedTemporaryFile
 from urllib.parse import urljoin
 from codecs import open
 from json.decoder import JSONDecodeError
@@ -66,9 +67,11 @@ class BrickFTP:
         # End upload
         self._post(upload_control_url, json={'action': 'end', 'ref': ref})
 
-    def download_file(self, *, remote_path, local_path):
+    def download_file(self, *, remote_path, local_path=None):
         if not self._logged_in:
             self._login()
+        if local_path is None:
+            local_path = NamedTemporaryFile(delete=False).name
         dl_info = self._get(
             f'/api/rest/v1/files/{self._path(remote_path)}',
         )
@@ -77,6 +80,7 @@ class BrickFTP:
         file_bytes = resp.content
         with open(local_path, 'wb') as file_:
             file_.write(file_bytes)
+        return local_path
 
     def delete(self, remote_path):
         if not self._logged_in:
