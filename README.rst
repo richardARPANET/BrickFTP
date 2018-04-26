@@ -67,6 +67,13 @@ NOTE: Deletes recursively through subdirectories.
 
     client.delete('/some_remote/path')
 
+Create a folder
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code:: python
+
+    client.mkdir('/some_remote/path')
+
 Requirements
 ------------
 

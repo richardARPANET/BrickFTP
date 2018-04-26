@@ -43,9 +43,19 @@ def test_dir(client):
     assert len(resp_json) == 1
 
 
+def test_mkdir(client):
+    path = Path(BASE_DIR, 'cheat codes')
+    resp_json = client.mkdir(path)
+
+    assert resp_json == []
+
+    resp_json = client.dir(path)
+    assert resp_json == []
+
+
 def test_folders(client, mocker):
     client.upload(
-        upload_path=str(Path(BASE_DIR, 'data.txt')),
+        upload_path=Path(BASE_DIR, 'data.txt'),
         local_path=Path(Path(__file__).parent, 'data.txt'),
     )
     resp_json = client.dir(BASE_DIR)
@@ -71,7 +81,7 @@ def test_upload(client):
 
 
 def test_download(client):
-    upload_path = str(Path(BASE_DIR, 'data2.txt'))
+    upload_path = Path(BASE_DIR, 'data2.txt')
     client.upload(
         upload_path=upload_path,
         local_path=Path(Path(__file__).parent, 'data.txt'),
@@ -83,7 +93,7 @@ def test_download(client):
 
 
 def test_delete(client):
-    upload_path = str(Path(BASE_DIR, 'data.txt'))
+    upload_path = Path(BASE_DIR, 'data.txt')
     client.upload(
         upload_path=upload_path,
         local_path=Path(Path(__file__).parent, 'data.txt'),

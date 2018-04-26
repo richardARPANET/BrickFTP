@@ -1,4 +1,5 @@
 import logging
+from urllib.parse import urljoin
 from json.decoder import JSONDecodeError
 
 from requests.exceptions import RequestException
@@ -28,18 +29,25 @@ class BrickFTP:
         self._session_id = start_session_resp['id']
         self._logged_in = True
 
+    def _path(self, path):
+        return str(path).lstrip('/')
+
     def dir(self, remote_path):
         if not self._logged_in:
             self._login()
-        return self._get(f'/api/rest/v1/folders/{remote_path.lstrip("/")}')
+        return self._get(f'/api/rest/v1/folders/{self._path(remote_path)}')
+
+    def mkdir(self, remote_path):
+        if not self._logged_in:
+            self._login()
+        return self._post(f'/api/rest/v1/folders/{self._path(remote_path)}')
 
     def upload(self, *, upload_path, local_path):
         # NOTE: can currently only upload upto 5MB size files
         # https://developers.brickftp.com/#requesting-additional-upload-urls
         if not self._logged_in:
             self._login()
-        upload_path = upload_path.lstrip('/')
-        upload_control_url = f'/api/rest/v1/files/{upload_path}'
+        upload_control_url = f'/api/rest/v1/files/{self._path(upload_path)}'
         # Start upload
         start_upload_resp_json = self._post(
             upload_control_url,
@@ -60,9 +68,8 @@ class BrickFTP:
     def download_file(self, *, remote_path, local_path):
         if not self._logged_in:
             self._login()
-        remote_path = remote_path.lstrip('/')
         dl_info = self._get(
-            f'/api/rest/v1/files/{remote_path}',
+            f'/api/rest/v1/files/{self._path(remote_path)}',
         )
         resp = requests.get(dl_info['download_uri'])
         resp.raise_for_status()
@@ -73,9 +80,9 @@ class BrickFTP:
     def delete(self, remote_path):
         if not self._logged_in:
             self._login()
-        remote_path = remote_path.lstrip('/')
         self._delete(
-            f'/api/rest/v1/files/{remote_path}', headers={'Depth': 'infinity'}
+            f'/api/rest/v1/files/{self._path(remote_path)}',
+            headers={'Depth': 'infinity'}
         )
 
     def _post(self, path, **kwargs):
@@ -88,9 +95,7 @@ class BrickFTP:
         return self._request(path=path, method='delete', **kwargs)
 
     def _request(self, *, path, method, **kwargs):
-        url = (
-            f'https://{self._subdomain}.brickftp.com/{path.lstrip("/")}'
-        )
+        url = urljoin(f'https://{self._subdomain}.brickftp.com/', path)
         try:
             resp = getattr(requests, method)(
                 url, **{**self._default_request_kwargs, **kwargs}
