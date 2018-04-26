@@ -3,10 +3,11 @@
 Release History
 ---------------
 
-0.1.3 (unreleased)
+0.2.0 (unreleased)
 ++++++++++++++++++
 
-- Nothing changed yet.
+- Adds ``mkdir`` client method.
+- Bugfix where pathlib Paths could not be used as client parameters.
 
 
 0.1.2 (2018-04-20)
