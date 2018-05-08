@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 from tempfile import NamedTemporaryFile
 from urllib.parse import urljoin
 from codecs import open
@@ -71,10 +72,13 @@ class BrickFTP:
         if not self._logged_in:
             self._login()
         if local_path is None:
-            local_path = NamedTemporaryFile(delete=False).name
-        dl_info = self._get(
-            f'/api/rest/v1/files/{self._path(remote_path)}',
-        )
+            remote_path = Path(remote_path)
+            local_path = NamedTemporaryFile(
+                delete=False,
+                prefix=f'{remote_path.name}_',
+                suffix=remote_path.suffix,
+            ).name
+        dl_info = self._get(f'/api/rest/v1/files/{self._path(remote_path)}')
         resp = requests.get(dl_info['download_uri'])
         resp.raise_for_status()
         file_bytes = resp.content

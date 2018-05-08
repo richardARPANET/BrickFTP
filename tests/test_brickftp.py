@@ -40,7 +40,7 @@ def test_dir(client):
     resp_json = client.dir('/')
 
     assert isinstance(resp_json, list)
-    assert len(resp_json) == 1
+    assert len(resp_json) >= 1
 
 
 def test_mkdir(client):
@@ -93,6 +93,21 @@ def test_download(client):
 
     assert downloaded_path == '/tmp/data2.txt'
     assert os.path.isfile('/tmp/data2.txt')
+
+
+def test_download_without_local_path(client):
+    upload_path = Path(BASE_DIR, 'data2.txt')
+    client.upload(
+        upload_path=upload_path,
+        local_path=Path(Path(__file__).parent, 'data.txt'),
+    )
+
+    downloaded_path = Path(client.download_file(remote_path=upload_path))
+
+    # Check the downloaded filename is readable and similar to the remote
+    assert downloaded_path.name.endswith('.txt')
+    assert downloaded_path.name.startswith('data2')
+    assert os.path.isfile(downloaded_path)
 
 
 def test_download_without_local_path_generates_local_path(client):
