@@ -3,7 +3,7 @@
 Release History
 ---------------
 
-0.5.1 (unreleased)
+0.5.1 (2018-05-08)
 ++++++++++++++++++
 
 - Bugfix within ``download_file``, incorrect downloaded filename.
