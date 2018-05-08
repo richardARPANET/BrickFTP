@@ -40,7 +40,7 @@ def test_dir(client):
     resp_json = client.dir('/')
 
     assert isinstance(resp_json, list)
-    assert len(resp_json) == 1
+    assert len(resp_json) >= 1
 
 
 def test_mkdir(client):
