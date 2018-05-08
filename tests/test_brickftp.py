@@ -106,7 +106,7 @@ def test_download_without_local_path(client):
 
     # Check the downloaded filename is readable and similar to the remote
     assert downloaded_path.name.endswith('.txt')
-    assert downloaded_path.name.startswith('data2')
+    assert downloaded_path.name.startswith('data2_')
     assert os.path.isfile(downloaded_path)
 
 

@@ -75,7 +75,7 @@ class BrickFTP:
             remote_path = Path(remote_path)
             local_path = NamedTemporaryFile(
                 delete=False,
-                prefix=f'{remote_path.name}_',
+                prefix=f'{remote_path.stem}_',
                 suffix=remote_path.suffix,
             ).name
         dl_info = self._get(f'/api/rest/v1/files/{self._path(remote_path)}')
