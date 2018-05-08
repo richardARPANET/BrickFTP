@@ -3,7 +3,7 @@
 Release History
 ---------------
 
-0.5.0 (unreleased)
+0.5.0 (2018-05-08)
 ++++++++++++++++++
 
 - Alters ``download_file`` so that the downloaded file name is similar to that of the remote being downloaded, rather than completely randomly generated.
