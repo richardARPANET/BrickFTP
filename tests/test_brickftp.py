@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from uuid import uuid4
 from json.decoder import JSONDecodeError
 
 from requests.exceptions import RequestException
